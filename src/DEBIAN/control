@@ -1,0 +1,13 @@
+Package: yuz-branding-calamares
+Version: 1.0.0
+Section: misc
+Priority: optional
+Architecture: all
+Depends: calamares-settings-debian (>= 13.0.0)
+Recommends: calamares (>= 3.3.0), yuz-branding-base
+Maintainer: Emad <mysmartlifelevel@gmail.com>
+Homepage: https://github.com/emad-ms/yuz-branding-calamares
+Description: Official Calamares installer branding package for Yuz-OS Edu.
+ This package provides the Yuz OS Education installer branding descriptor,
+ custom slideshow presentation, Nord-themed visual styling, and integrates
+ seamlessly with calamares-settings-debian infrastructure on live media.

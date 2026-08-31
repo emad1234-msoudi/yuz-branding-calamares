@@ -1,0 +1,85 @@
+#!/bin/bash
+
+########## Copyright (C) 2026 MIT Emad-ms ##########
+
+# project: yuz-os calamares branding package
+# project git: https://github.com/emad-ms/yuz-branding-calamares
+
+# DEBIAN/postinst
+# Script for configuring Yuz Calamares branding package
+
+# Note : generated with ai
+
+set -e
+
+########## configuration ##########
+
+PKG_NAME="yuz-branding-calamares"
+
+CALAMARES_SETTINGS="/etc/calamares/settings.conf"
+BRANDING_DIR="/etc/calamares/branding/yuz"
+BRANDING_DESC="$BRANDING_DIR/branding.desc"
+DESKTOP_LAUNCHER="/usr/share/applications/calamares-install-debian.desktop"
+
+########## helpers ##########
+
+# Warn if the expected branding payload is incomplete
+verify_branding_files() {
+    if [ ! -d "$BRANDING_DIR" ]; then
+        echo "$PKG_NAME: warning: branding directory is missing: $BRANDING_DIR" >&2
+        return 1
+    fi
+
+    if [ ! -f "$BRANDING_DESC" ]; then
+        echo "$PKG_NAME: warning: branding descriptor is missing: $BRANDING_DESC" >&2
+        return 1
+    fi
+
+    return 0
+}
+
+# Update Calamares main configuration to activate Yuz branding
+apply_calamares_branding() {
+    if [ ! -f "$CALAMARES_SETTINGS" ]; then
+        echo "$PKG_NAME: Calamares settings not found at $CALAMARES_SETTINGS; skipping configuration" >&2
+        return 0
+    fi
+
+    echo "$PKG_NAME: activating Yuz branding in Calamares configuration" >&2
+    sed -i 's/^branding:\s*debian/branding: yuz/' "$CALAMARES_SETTINGS"
+}
+
+# Update desktop launcher with Yuz identity and upstream Calamares icon
+configure_desktop_launcher() {
+    if [ ! -f "$DESKTOP_LAUNCHER" ]; then
+        echo "$PKG_NAME: desktop launcher not found at $DESKTOP_LAUNCHER; skipping shortcut update" >&2
+        return 0
+    fi
+
+    echo "$PKG_NAME: configuring live desktop installer launcher" >&2
+    sed -i 's/^Name=.*/Name=Install Yuz-OS Edu/' "$DESKTOP_LAUNCHER"
+    sed -i 's/^Icon=.*/Icon=calamares/' "$DESKTOP_LAUNCHER"
+    sed -i 's/^Comment=.*/Comment=Calamares — Installer for Yuz-OS Edu Live/' "$DESKTOP_LAUNCHER"
+}
+
+########## main ##########
+
+case "$1" in
+    configure)
+        verify_branding_files || true
+        apply_calamares_branding
+        configure_desktop_launcher
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
+
+########## end ##########

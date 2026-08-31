@@ -1,0 +1,61 @@
+#!/bin/bash
+
+########## Copyright (C) 2026 MIT Emad-ms ##########
+
+# project: yuz-os calamares branding package
+# project git: https://github.com/emad-ms/yuz-branding-calamares
+
+# DEBIAN/postrm
+# Script for restoring default settings upon package removal
+
+# Note : generated with ai
+
+set -e
+
+########## configuration ##########
+
+PKG_NAME="yuz-branding-calamares"
+
+CALAMARES_SETTINGS="/etc/calamares/settings.conf"
+DESKTOP_LAUNCHER="/usr/share/applications/calamares-install-debian.desktop"
+
+########## helpers ##########
+
+# Restore default Debian branding in Calamares configuration
+restore_calamares_branding() {
+    if [ -f "$CALAMARES_SETTINGS" ]; then
+        echo "$PKG_NAME: restoring default Debian branding in Calamares configuration" >&2
+        sed -i 's/^branding:\s*yuz/branding: debian/' "$CALAMARES_SETTINGS"
+    fi
+}
+
+# Restore default Debian desktop launcher metadata
+restore_desktop_launcher() {
+    if [ -f "$DESKTOP_LAUNCHER" ]; then
+        echo "$PKG_NAME: restoring default Debian live installer launcher" >&2
+        sed -i 's/^Name=.*/Name=Install Debian/' "$DESKTOP_LAUNCHER"
+        sed -i 's/^Icon=.*/Icon=install-debian/' "$DESKTOP_LAUNCHER"
+        sed -i 's/^Comment=.*/Comment=Calamares — Installer for Debian Live/' "$DESKTOP_LAUNCHER"
+    fi
+}
+
+########## main ##########
+
+case "$1" in
+    remove|purge)
+        restore_calamares_branding
+        restore_desktop_launcher
+        ;;
+
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
+
+########## end ##########
