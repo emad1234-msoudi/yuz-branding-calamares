@@ -1,0 +1,33 @@
+---
+componentName:   yuz
+welcomeStyleCalamares: true
+welcomeExpandingLogo: true
+windowExpanding: normal
+windowSize: 850px,580px
+windowPlacement: center
+
+strings:
+    productName:         Yuz-OS Edu
+    shortProductName:    Yuz
+    version:             1.2.1
+    shortVersion:        1.2
+    versionedName:       Yuz-OS Edu 1.2.0 (Trixie)
+    shortVersionedName:  Yuz-OS 1.2
+    bootloaderEntryName: Yuz-OS
+    productUrl:          https://github.com/dripleaf/yuz-os
+    supportUrl:          https://github.com/dripleaf/yuz-os/issues
+    releaseNotesUrl:     https://github.com/dripleaf/yuz-os/releases
+
+images:
+    productLogo:         "yuz-logo.png"
+    productIcon:         "yuz-logo.png"
+    productWelcome:      "welcome.png"
+
+slideshow:               "show.qml"
+slideshowAPI:            2
+
+style:
+   SidebarBackground:        "#242933"
+   SidebarText:              "#d8dee9"
+   SidebarTextCurrent:       "#eceff4"
+   SidebarBackgroundCurrent: "#434c5e"
