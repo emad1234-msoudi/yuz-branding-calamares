@@ -1,0 +1,7 @@
+#-> build files :
+
+*.deb
+*.sha256
+build/
+
+release/ #system realse archive 
